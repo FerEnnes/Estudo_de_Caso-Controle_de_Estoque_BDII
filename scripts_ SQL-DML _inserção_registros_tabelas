@@ -1,0 +1,147 @@
+-- Inserindo na tabela usuários
+
+
+	INSERT INTO usuarios (nome, email, senha, tipodeusuario) VALUES
+	  ('João', 'joao@gmail.com', 'senha123', 1),
+	  ('Maria', 'maria@gmail.com', 'senha456', 2),
+	  ('Carlos', 'carlos@gmail.com', 'senha789', 1),
+	  ('Felipe', 'felipe@gmail.com', 'senha790', 3),
+	  ('Pedro', 'pedro@gmail.com', 'senha791', 2);
+
+-- Inserindo na tabela fornecedores
+
+
+	INSERT INTO fornecedores (nome, email, logradouro, numero, cep, cidade, uf) VALUES
+	  ('Água Mineral Cristal', 'aguamineralCristal@gmail.com', 'Rua Nova', 123, '12345-678', 'São Paulo', 'SP'),
+	  ('Minalba Brasil', 'minalbaBrasil@gmail.com', 'Rua Velha', 453, '98765-433', 'Saquarema', 'RJ'),
+	  ('Água Mineral Ingá', 'aguamineralinga', 'Rua Direita', 43, '98765-437', 'Tubarão', 'SC'),
+	  ('Água Mineral Dias Dávila', 'aguamineraldiasdavila@gmail.com', 'Rua Esquerda', 46, '98765-434', 'Chapecó', 'SC'),
+	  ('Água Mineral Rocha Branca', 'aguamineralbochabranca@gmail.com', 'Rua 250', 56, '98765-438', 'Itajaí', 'SC');
+  
+  -- Inserindo na tabela clientes
+  
+  	INSERT INTO clientes (nome, email, logradouro, numero, complemento, cep, cidade, uf, idcliente) VALUES
+	  ('Mauricio Souza', 'mauricio@email.com', 'Rua 2300', 111, 'Apto 303', '4321-987', 'São Paulo', 'SP', 1),
+	  ('Priscila Marques', 'pri@email.com', 'Rua 24567', 222, 'Casa', '8765-432', 'Rio de Janeiro', 'RJ', 2),
+	  ('Gabriel Oliveira', 'gabi21@email.com', 'Rua Tietê', 212, 'Casa', '8765-234', 'Chapecó', 'SC', 3),
+	  ('João Silva', 'jos@email.com', 'Rua Borges de medeiros', 256, 'Casa 4', '8765-234', 'Chapecó', 'SC', 4),
+	  ('Marcos Oliveira', 'marcos@email.com', 'Rua 2500', 232, 'Casa', '8330-675', 'Balneário Camboriú', 'SC', 5);
+  
+    -- Inserindo na tabela categorias
+	
+	INSERT INTO categorias (descricao) VALUES
+	  ('Águas Mineirais Galão 20l'),
+	  ('Águas Mineirais garrafa 300ml'),
+	  ('Águas Mineirais garrafa 1l'),
+	  ('Águas Mineirais garrafa 3l'),
+	  ('Águas Mineirais garrafa 5l');
+	  
+	  
+
+	-- Inserindo na tabela produtos
+	
+	INSERT INTO produtos (Descricao, PrecoCusto, precoVenda, quantidadeEstoque, idcategoria) VALUES
+	  ('Água Mineral Cristal Galão 20L', 7.99, 15.99, 50, 1),
+	  ('Minalba Brasil 300 ml',0.99, 1.50, 30, 2),
+	  ('Água Mineral Ingá 1l', 1.49, 2.99, 100, 3),
+	  ('Água Mineral Dias Dávila 3l', 2.00, 4.99, 40, 4),
+	  ('Água Mineral Rocha Branca 5l', 3.00, 6.99, 50, 5);
+	 
+	 -- Inserindo na tabela entradas
+	
+	INSERT INTO entradas (data, valorTotal, idfornecedor) VALUES
+	  ('2023-01-15', 500.00, 1),
+	  ('2023-02-20', 700.00, 2),
+	  ('2023-03-10', 200.00, 3),
+	  ('2023-02-06', 300.00, 4),
+	  ('2023-02-10', 400.00, 5);
+	  
+	  -- Update para criar id de usuários
+	  
+	   UPDATE usuarios
+		SET idusuario= 1
+		WHERE nome = 'João';
+		
+		UPDATE usuarios
+		SET idusuario = 2
+		WHERE nome = 'Maria';
+		
+		UPDATE usuarios
+		SET idusuario = 3
+		WHERE nome = 'Carlos';
+		
+		UPDATE usuarios
+		SET idusuario= 4
+		WHERE nome = 'Felipe';
+		
+		UPDATE usuarios
+		SET idusuario = 5
+		WHERE nome = 'Pedro';
+		
+	-- teste para ver se funcionou 
+	
+	SELECT idusuario FROM usuarios;	
+	  
+	 -- Inserindo na tabela saídas  
+	  
+	INSERT INTO saidas (data, valorTotal, idcliente, idusuario) VALUES
+	  ('2023-03-10', 250.00, 1, 1),
+	  ('2023-04-05', 450.00, 3, 3),
+	  ('2023-03-07', 350.00, 2, 4),
+	  ('2023-05-09', 550.00, 5, 2),
+	  ('2023-08-05', 750.00, 4, 5);
+	  
+	 -- Update para criar id de  produtos
+	  UPDATE produtos
+		SET idproduto= 1
+		WHERE Descricao = 'Água Mineral Cristal Galão 20L';
+		
+		UPDATE produtos
+		SET idproduto = 2
+		WHERE Descricao = 'Minalba Brasil 300 ml';
+		
+		UPDATE produtos
+		SET idproduto = 3
+		WHERE Descricao = 'Água Mineral Ingá 1l';
+		
+		UPDATE produtos
+		SET idproduto= 4
+		WHERE Descricao = 'Água Mineral Dias Dávila 3l';
+		
+		UPDATE produtos
+		SET idproduto = 5
+		WHERE Descricao = 'Água Mineral Rocha Branca 5l';
+		
+		-- teste para ver se funcionou 
+	
+		SELECT idproduto FROM produtos;
+	  
+	  -- Verificando quais são os numeronfsaida existentes
+	  
+	  	SELECT numeroNFSaida FROM saidas;
+		
+	 -- Inserindo na tabela itens_saida
+	 
+	 
+		INSERT INTO itens_saida (quantidade, valorUnitario, numeronfsaida, idproduto) VALUES
+	  
+		  (5, 15.99, 21, 1),
+		  (3, 1.50, 22, 2),
+		  (10, 2.00, 23, 4),
+		  (7, 2.99, 24, 3),
+		  (7, 3.00, 25, 5);
+
+
+		-- Verificando quais são os numeronfentrada existentes
+	  
+	  	SELECT numeroNFEntrada FROM entradas;
+		
+		-- Inserindo na tabela itens_entrada
+		
+		  INSERT INTO itens_entrada (quantidade, valorUnitario, IDProduto, numeronfentrada) VALUES
+
+			 (10, 7.99, 1, 1),
+			 (20, 0.99, 2, 2),
+			 (20, 1.49, 3, 3),
+			 (20, 2.00, 4, 4),
+			 (20, 3.00, 5, 5);
