@@ -1,0 +1,51 @@
+--Selecionar todas as compras de um cliente, em um determinado período, ordenando por data (da mais nova para a mais antiga):
+
+
+			SELECT s.*, i.* 
+			FROM saidas s
+			INNER JOIN itens_saida i ON s.numeroNFSaida = i.numeroNFSaida
+			WHERE s.IDCliente = 2
+			  AND s.data BETWEEN '2023-01-01' AND '2023-12-31'
+			ORDER BY s.data DESC;
+	
+	--Selecionar todas as entradas de uma determinada mercadoria, em um dado período (ordenando da mais antiga para a mais nova):
+	
+			SELECT e.*, i.* 
+			FROM entradas e
+			INNER JOIN itens_entrada i ON e.numeroNFEntrada = i.numeroNFEntrada
+			INNER JOIN produtos p ON i.IDProduto = p.IDProduto
+			WHERE p.Descricao = 'Água Mineral Cristal Galão 20L'
+			  AND e.data BETWEEN '2023-01-01' AND '2023-12-31'
+			ORDER BY e.data;
+
+	--Quais os fornecedores do produto “X”?
+	
+			SELECT DISTINCT f.*
+			FROM fornecedores f
+			INNER JOIN entradas e ON f.IDFornecedor = e.IDFornecedor
+			INNER JOIN itens_entrada i ON e.numeroNFEntrada = i.numeroNFEntrada
+			INNER JOIN produtos p ON i.IDProduto = p.IDProduto
+			WHERE p.Descricao = 'Água Mineral Cristal Galão 20L';
+		
+		
+	--Quais os 10 produtos mais vendidos no período informado, em ordem decrescente?
+	
+			SELECT p.Descricao, SUM(i.quantidade) AS total_vendido
+			FROM produtos p
+			INNER JOIN itens_saida i ON p.IDProduto = i.IDProduto
+			INNER JOIN saidas s ON i.numeroNFSaida = s.numeroNFSaida
+			WHERE s.data BETWEEN '2023-01-01' AND '2023-12-31'
+			GROUP BY p.Descricao
+			ORDER BY total_vendido DESC
+			LIMIT 10;
+			
+	--Qual o cliente que mais comprou (valor) no período informado?
+	
+		SELECT c.nome, SUM(i.valorUnitario * i.quantidade) AS total_comprado
+		FROM clientes c
+		INNER JOIN saidas s ON c.IDCliente = s.IDCliente
+		INNER JOIN itens_saida i ON s.numeroNFSaida = i.numeroNFSaida
+		WHERE s.data BETWEEN '2023-01-01' AND '2023-12-31'
+		GROUP BY c.nome
+		ORDER BY total_comprado DESC
+		LIMIT 1;
