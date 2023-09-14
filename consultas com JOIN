@@ -1,0 +1,72 @@
+--Listar nomes dos clientes cadastrados
+
+	SELECT Idcliente FROM clientes;
+	
+-- Listar datas de compras apenas uma vez, caso tenha várias compras no mesmo dia
+
+	SELECT DISTINCT data
+	FROM saidas;
+
+--Selecionar todas as compras de um cliente, em um determinado período, ordenando por data (da mais nova para a mais antiga):
+	
+	SELECT s.*
+	FROM saidas s
+	WHERE s.idcliente = 1
+	  AND s.data BETWEEN '2023-03-07' AND '2023-08-05'
+	ORDER BY s.data DESC;
+	
+-- Listar todos os produtos cadastrados
+
+	SELECT descricao FROM produtos;
+	
+--Listar datas de entrada
+	SELECT DISTINCT data
+	FROM entradas;
+
+--Selecionar todas as entradas de uma determinada mercadoria, em um dado período (ordenando da mais antiga para a mais nova):
+	
+	SELECT e.*
+	FROM entradas e
+	INNER JOIN itens_entrada i ON e.numeroNFEntrada = i.numeroNFEntrada
+	INNER JOIN produtos p ON i.IDProduto = p.IDProduto
+	WHERE p.Descricao = 'Água Mineral Cristal Galão 20L'
+	  AND e.data BETWEEN '2023-01-15' AND '2023-03-10'
+	ORDER BY e.data ASC;
+	
+-- Listar nomes dos produtos
+
+	SELECT descricao From produtos;
+
+
+-- Listar os fornecedores do produto "X"?
+
+	SELECT f.*
+	FROM fornecedores f
+	INNER JOIN entradas e ON f.IDFornecedor = e.IDFornecedor
+	INNER JOIN itens_entrada i ON e.numeroNFEntrada = i.numeroNFEntrada
+	INNER JOIN produtos p ON i.IDProduto = p.IDProduto
+	WHERE p.Descricao = 'Água Mineral Ingá 1l';
+	
+	
+--Listar os 10 produtos mais vendidos no período informado, em ordem decrescente:
+
+	SELECT p.Descricao, SUM(i.quantidade) AS total_vendido
+	FROM produtos p
+	INNER JOIN itens_saida i ON p.IDProduto = i.IDProduto
+	INNER JOIN saidas s ON i.numeroNFSaida = s.numeroNFSaida
+	WHERE s.data BETWEEN '2022-01-01' AND '2024-01-01'
+	GROUP BY p.Descricao
+	ORDER BY total_vendido DESC
+	LIMIT 10;
+
+
+-- Listar o cliente que mais comprou (valor) no período informado:
+
+	SELECT c.nome AS cliente, SUM(s.valorTotal) AS total_comprado
+	FROM clientes c
+	INNER JOIN saidas s ON c.IDCliente = s.IDCliente
+	WHERE s.data BETWEEN '2022-01-01' AND '2024-01-01'
+	GROUP BY c.nome
+	ORDER BY total_comprado DESC
+	LIMIT 1;
+
