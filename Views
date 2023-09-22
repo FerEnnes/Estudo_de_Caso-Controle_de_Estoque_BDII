@@ -1,0 +1,53 @@
+-- 1)Listar todos os clientes
+
+
+	CREATE VIEW View_TodosClientes AS
+	SELECT IDCliente, nome, email, logradouro, numero, complemento, cep, cidade, uf
+	FROM clientes;
+
+-- Comando SQL para listar todos os clientes
+	
+	SELECT * FROM View_TodosClientes;
+	
+	
+-- 2)Listar as compras (data, NF, produtos) de um cliente 
+
+	CREATE VIEW View_ComprasCliente AS
+	SELECT s.data, s.numeroNFSaida AS NF, i.IDProduto, p.Descricao AS Produto, c.IDCliente, c.nome AS NomeCliente
+	FROM saidas s
+	JOIN itens_saida i ON s.numeroNFSaida = i.numeroNFSaida
+	JOIN produtos p ON i.IDProduto = p.IDProduto
+	JOIN clientes c ON s.IDCliente = c.IDCliente;
+
+-- Comando para listar as compras de um cliente (substituir 'ID_do_Cliente' pelo ID do cliente desejado)
+	SELECT *
+	FROM view_comprascliente
+	WHERE idcliente = 3;
+	
+	
+-- Listar todos os produtos.
+
+	CREATE VIEW View_TodosProdutos AS
+	SELECT IDProduto, Descricao, PrecoCusto, precoVenda, quantidadeEstoque, IDCategoria
+	FROM produtos;
+
+-- Comando para listar todos os produtos
+
+	SELECT * FROM View_TodosProdutos;
+	 
+	 
+-- Listar os 10 produtos mais vendidos em um período
+	
+	CREATE VIEW View_ProdutosMaisVendidos AS
+	SELECT p.IDProduto, p.Descricao, SUM(i.quantidade) AS total_vendido
+	FROM itens_saida i
+	JOIN produtos p ON i.IDProduto = p.IDProduto
+	JOIN saidas s ON i.numeroNFSaida = s.numeroNFSaida
+	WHERE s.data BETWEEN '2023-03-10' AND '2023-08-05'
+	GROUP BY p.IDProduto, p.Descricao
+	ORDER BY total_vendido DESC
+	LIMIT 10;
+
+-- Comando SQL para listar os 10 produtos mais vendidos em um período específico
+	
+	SELECT * FROM View_ProdutosMaisVendidos;
